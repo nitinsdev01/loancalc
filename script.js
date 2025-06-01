@@ -187,6 +187,7 @@ function printAmortizationSchedule() {
         <html>
         <head>
             <title>Amortization Chart</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <style>
                 @page {
@@ -197,6 +198,8 @@ function printAmortizationSchedule() {
                     font-family: 'Inter', sans-serif;
                     margin: 0;
                     padding: 0;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
                 }
                 .print-container { 
                     padding: 20px;
@@ -269,6 +272,14 @@ function printAmortizationSchedule() {
                     .accordion-button { display: none; }
                     @page { margin: 0; }
                     body { margin: 0; }
+                    html, body {
+                        height: 100%;
+                        width: 100%;
+                    }
+                    .print-container {
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
             </style>
         </head>
@@ -329,7 +340,19 @@ function printAmortizationSchedule() {
                 function handlePrint() {
                     // Add a small delay to ensure content is fully loaded
                     setTimeout(() => {
-                        window.print();
+                        try {
+                            window.print();
+                        } catch (error) {
+                            console.error('Print failed:', error);
+                            // Fallback for mobile devices
+                            const printFrame = document.createElement('iframe');
+                            printFrame.style.display = 'none';
+                            document.body.appendChild(printFrame);
+                            printFrame.contentWindow.document.write(document.documentElement.outerHTML);
+                            printFrame.contentWindow.document.close();
+                            printFrame.contentWindow.focus();
+                            printFrame.contentWindow.print();
+                        }
                     }, 500);
                 }
 
