@@ -356,17 +356,6 @@ function printAmortizationSchedule() {
                     }, 500);
                 }
 
-                // Function to handle window closing
-                function handleClose() {
-                    // Add a delay before closing to ensure print dialog has time to open
-                    setTimeout(() => {
-                        window.close();
-                    }, 1000);
-                }
-
-                // Listen for print dialog close
-                window.addEventListener('afterprint', handleClose);
-
                 // Start the print process when the page loads
                 window.addEventListener('load', handlePrint);
             </script>
