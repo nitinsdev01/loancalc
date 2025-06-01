@@ -267,8 +267,6 @@ function printAmortizationSchedule() {
                     .no-print { display: none; }
                     .accordion-collapse { display: block !important; }
                     .accordion-button { display: none; }
-                    .loan-details { display: block; color: #0d6efd; }
-                    .loan-details strong { color: #000; }
                     @page { margin: 0; }
                     body { margin: 0; }
                 }
@@ -327,12 +325,27 @@ function printAmortizationSchedule() {
                 </div>
             </div>
             <script>
-                window.onload = function() {
-                    window.print();
-                };
-                window.onafterprint = function() {
-                    window.close();
-                };
+                // Function to handle printing
+                function handlePrint() {
+                    // Add a small delay to ensure content is fully loaded
+                    setTimeout(() => {
+                        window.print();
+                    }, 500);
+                }
+
+                // Function to handle window closing
+                function handleClose() {
+                    // Add a delay before closing to ensure print dialog has time to open
+                    setTimeout(() => {
+                        window.close();
+                    }, 1000);
+                }
+
+                // Listen for print dialog close
+                window.addEventListener('afterprint', handleClose);
+
+                // Start the print process when the page loads
+                window.addEventListener('load', handlePrint);
             </script>
         </body>
         </html>
